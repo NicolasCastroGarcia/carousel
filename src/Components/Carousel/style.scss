@@ -1,0 +1,97 @@
+.carrousel {
+  min-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  &:hover {
+    .previous,
+    .next {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+.img {
+  transition-duration: 500ms;
+
+  &:hover {
+    transform: scale(1.2);
+    margin: 50px;
+    z-index: 1;
+  }
+}
+
+.chapterContainer {
+  cursor: pointer;
+  transition-duration: 800ms;
+  margin: 0 5px;
+  display: flex;
+  align-items: center;
+}
+
+.previous,
+.next {
+  z-index: 1;
+  background-color: rgba($color: #000000, $alpha: 0.5);
+  cursor: pointer;
+  border: none;
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.5s, opacity 0.5s linear;
+  display: flex;
+  align-items: center;
+  height: 200px;
+  padding: 0px 20px;
+}
+
+.next {
+  right: 0;
+}
+.previous {
+  left: 0;
+}
+
+.chaptersContainer {
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  width: 100vw;
+  align-items: center;
+
+  //   &::-webkit-scrollbar {
+  //     margin-top: 20px;
+  //   }
+
+  p {
+    margin: 0;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .img {
+    transition-duration: 500ms;
+
+    &:hover {
+      transform: scale(1.2);
+      margin: 20px;
+    }
+  }
+
+  .chapterContainer {
+    max-width: 210px;
+    max-height: 110px;
+  }
+
+  .chaptersContainer {
+    overflow: auto;
+    white-space: nowrap;
+
+    .next,
+    .previous {
+      display: none;
+    }
+  }
+}

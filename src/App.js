@@ -1,23 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.scss";
+import Carousel from "./Components/Carousel";
+
+const data = [
+  "https://picsum.photos/id/1/400/200",
+  "https://picsum.photos/id/1005/400/200",
+  "https://picsum.photos/id/1033/400/200",
+  "https://picsum.photos/id/106/400/200",
+  "https://picsum.photos/id/1062/400/200",
+  "https://picsum.photos/id/169/400/200"
+];
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Carousel array={data} width={400} />
       </header>
     </div>
   );
