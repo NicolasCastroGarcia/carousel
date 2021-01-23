@@ -1,50 +1,50 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./style.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight
 } from "@fortawesome/free-solid-svg-icons";
-import { isMobile } from "react-device-detect";
+import { useWindowSize } from "../../hooks/useWindowsSize";
 
-function Carousel(props) {
-  const { array, width } = props;
+function Carousel({ images = [], scrollBy = 0 }) {
   const [offset, setOffset] = useState(0);
-  const [slide, setSlide] = useState(4);
-  const [size, setSize] = useState(width + 10);
+  const [slide, setSlide] = useState(scrollBy);
+  const [size, setSize] = useState(410);
+  const [windowWidth, windowHeight] = useWindowSize();
 
   useEffect(() => {
-    const windowWidth = window.innerWidth;
-    let number = 4;
-    let newSize = width + 10;
+    let number = scrollBy;
+    let newSize = 410;
 
     if (windowWidth <= 768) {
-      newSize = 220;
+      newSize = 200;
     }
 
-    if (windowWidth) {
+    if ((windowWidth && !scrollBy) || scrollBy > images.length - 1) {
       number = Math.floor(windowWidth / newSize);
     }
+
     setSlide(number);
     setSize(newSize);
-  }, []);
+  }, [windowWidth, windowHeight]);
 
   function handlePrevious() {
-    let tmpOffset = offset + size * slide;
+    let tmpOffset = offset + (size + 10) * slide;
 
     if (tmpOffset > 0) {
-      tmpOffset = 55;
+      tmpOffset = 0;
     }
 
     setOffset(tmpOffset);
   }
 
   function handleNext() {
-    let tmpOffset = offset - size * slide;
-    let lengthUnits = array.length - 1;
+    let tmpOffset = offset - (size + 10) * slide;
+    let lengthUnits = images.length - 1;
 
-    if (tmpOffset < -lengthUnits * size) {
-      tmpOffset = offset;
+    if (tmpOffset < -lengthUnits * (size + 10)) {
+      tmpOffset = 0;
     }
 
     setOffset(tmpOffset);
@@ -52,52 +52,34 @@ function Carousel(props) {
 
   return (
     <div className="carrousel">
-      {!isMobile && array.length > 4 && (
-        <div className="previous" onClick={() => handlePrevious()}>
-          <FontAwesomeIcon icon={faChevronLeft} color="white" />
+      {windowWidth > 768 && images.length > 4 && (
+        <div className="previous" onClick={handlePrevious}>
+          <FontAwesomeIcon icon={faChevronLeft} color="white" size="xs" />
         </div>
       )}
       <div
         className="chaptersContainer"
         style={{ width: `calc(100vw / ${size}px)` }}
       >
-        {array.length > 0 &&
-          array.map((e, key) => {
+        {images.length > 0 &&
+          images.map((e, key) => {
             return (
               <div
                 className="chapterContainer"
-                style={
-                  slide < 4
-                    ? {
-                        transform: `translate3d(${offset}px, 0px, 0px) `,
-                        width: `calc(100vh / ${width}px) `
-                      }
-                    : {
-                        transform: `translate3d(${offset}px, 0px, 0px) `,
-                        width: `calc(100vh) `
-                      }
-                }
+                style={{
+                  transform: `translate3d(${offset}px, 0px, 0px) `,
+                  width: `calc(100vw / ${size}px) `
+                }}
                 key={key}
               >
-                {}
-                <img
-                  style={
-                    slide == 4
-                      ? {
-                          width: `calc(${width}px) `
-                        }
-                      : { width: `200px` }
-                  }
-                  src={e}
-                  className="img"
-                />
+                <img style={{ width: `${size}px ` }} src={e} className="img" />
               </div>
             );
           })}
       </div>
-      {!isMobile && array.length > 4 && (
-        <div className="next" onClick={() => handleNext()}>
-          <FontAwesomeIcon icon={faChevronRight} color="white" />
+      {windowWidth > 768 && images.length > 4 && (
+        <div className="next" onClick={handleNext}>
+          <FontAwesomeIcon icon={faChevronRight} color="white" size="xs" />
         </div>
       )}
     </div>

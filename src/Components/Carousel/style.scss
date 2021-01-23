@@ -14,7 +14,10 @@
 }
 
 .img {
+  display: block;
   transition-duration: 500ms;
+  max-height: 205px;
+  object-fit: cover;
 
   &:hover {
     transform: scale(1.2);
@@ -43,8 +46,11 @@
   transition: visibility 0.5s, opacity 0.5s linear;
   display: flex;
   align-items: center;
-  height: 200px;
-  padding: 0px 20px;
+  justify-content: center;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  margin: 5px;
 }
 
 .next {
@@ -60,23 +66,19 @@
   position: relative;
   width: 100vw;
   align-items: center;
-
-  //   &::-webkit-scrollbar {
-  //     margin-top: 20px;
-  //   }
-
-  p {
-    margin: 0;
-  }
 }
 
 @media only screen and (max-width: 768px) {
   .img {
-    transition-duration: 500ms;
+    object-fit: cover;
 
     &:hover {
-      transform: scale(1.2);
-      margin: 20px;
+      transform: scale(1);
+      margin: 0px;
+    }
+
+    &:last-child {
+      padding-right: 5px;
     }
   }
 
@@ -88,10 +90,5 @@
   .chaptersContainer {
     overflow: auto;
     white-space: nowrap;
-
-    .next,
-    .previous {
-      display: none;
-    }
   }
 }
