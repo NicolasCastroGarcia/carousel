@@ -7,19 +7,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useWindowSize } from "../../hooks/useWindowsSize";
 
-function Carousel({ images, scrollBy }) {
+function Carousel({ images, scrollBy, width }) {
   const [offset, setOffset] = useState(0);
   const [slide, setSlide] = useState(scrollBy);
-  const [size, setSize] = useState(410);
+  const [size, setSize] = useState(width + 10);
   const [windowWidth, windowHeight] = useWindowSize();
   const myRef = useRef(0);
 
   useEffect(() => {
     function configure() {
       let number = scrollBy;
-      let newSize = 410;
+      let newSize = width + 10;
       if (windowWidth <= 768) {
-        newSize = 200;
+        newSize = width / 2;
       } else {
         myRef.current.scrollLeft = -0;
       }
