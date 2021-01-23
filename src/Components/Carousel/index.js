@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./style.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,31 +7,39 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useWindowSize } from "../../hooks/useWindowsSize";
 
-function Carousel({ images = [], scrollBy = 0 }) {
+function Carousel({ images, scrollBy }) {
   const [offset, setOffset] = useState(0);
   const [slide, setSlide] = useState(scrollBy);
   const [size, setSize] = useState(410);
   const [windowWidth, windowHeight] = useWindowSize();
+  const myRef = useRef(0);
 
   useEffect(() => {
-    let number = scrollBy;
-    let newSize = 410;
+    function configure() {
+      let number = scrollBy;
+      let newSize = 410;
+      if (windowWidth <= 768) {
+        newSize = 200;
+      } else {
+        myRef.current.scrollLeft = -0;
+      }
+      setOffset(0);
 
-    if (windowWidth <= 768) {
-      newSize = 200;
+      if (
+        (windowWidth && !scrollBy) ||
+        (images && scrollBy && scrollBy > images.length - 1)
+      ) {
+        number = Math.floor(windowWidth / newSize);
+      }
+
+      setSlide(number);
+      setSize(newSize);
     }
-
-    if ((windowWidth && !scrollBy) || scrollBy > images.length - 1) {
-      number = Math.floor(windowWidth / newSize);
-    }
-
-    setSlide(number);
-    setSize(newSize);
-  }, [windowWidth, windowHeight]);
+    configure();
+  }, [windowWidth, windowHeight, images, scrollBy]);
 
   function handlePrevious() {
     let tmpOffset = offset + (size + 10) * slide;
-
     if (tmpOffset > 0) {
       tmpOffset = 0;
     }
@@ -59,7 +67,8 @@ function Carousel({ images = [], scrollBy = 0 }) {
       )}
       <div
         className="chaptersContainer"
-        style={{ width: `calc(100vw / ${size}px)` }}
+        style={{ width: `${size}px)` }}
+        ref={myRef}
       >
         {images.length > 0 &&
           images.map((e, key) => {
@@ -68,11 +77,16 @@ function Carousel({ images = [], scrollBy = 0 }) {
                 className="chapterContainer"
                 style={{
                   transform: `translate3d(${offset}px, 0px, 0px) `,
-                  width: `calc(100vw / ${size}px) `
+                  width: `${size}`
                 }}
                 key={key}
               >
-                <img style={{ width: `${size}px ` }} src={e} className="img" />
+                <img
+                  style={{ width: `${size}px` }}
+                  src={e}
+                  className="img"
+                  alt={`${key}`}
+                />
               </div>
             );
           })}

@@ -22,7 +22,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Carousel images={data} scrollBy={27} />
+        <Carousel images={data} scrollBy={27} width={400} />
         {/* si no enviamos scrollBy, va a scrollear la cantidad que haya en pantalla que en el ejemplo es 4 */}
       </header>
     </div>

@@ -14,7 +14,6 @@
 }
 
 .img {
-  display: block;
   transition-duration: 500ms;
   max-height: 205px;
   object-fit: cover;
@@ -32,6 +31,7 @@
   margin: 0 5px;
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .previous,
