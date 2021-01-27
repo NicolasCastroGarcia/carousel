@@ -18,6 +18,8 @@ const data = [
   "https://picsum.photos/id/177/400/200"
 ];
 
+//declaro array de imágenes, todas son rectangulares de 400 de ancho x 200 de alto
+
 function App() {
   return (
     <div className="App">
